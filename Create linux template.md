@@ -67,3 +67,21 @@ qm set 9000 --ide2 local-lvm:cloudinit
 sudo apt update
 sudo apt install qemu-guest-agent gnupg rsync -y
 ```
+
+## Tips
+
+**Converting image format**
+
+```
+qemu-img convert -f qcow2 -O raw /path/to/image.qcow2 /path/to/image.img
+```
+
+Perfomance tweaks - https://pve.proxmox.com/wiki/Performance_Tweaks
+
+**Auto upgrades & list-changes**
+
+https://wiki.debian.org/UnattendedUpgrades
+
+```bash
+dpkg-reconfigure --priority=low unattended-upgrades
+```
