@@ -1,3 +1,4 @@
+```bash
 #!/bin/bash
 
 ## Script to stop Wialon services as well as check if stopped and trying
@@ -66,3 +67,4 @@ done
 
 # Shutdown the system
 /sbin/shutdown -h +0 >> $LOG 2>> $ERR
+```

@@ -1,6 +1,6 @@
 # NUT configuration
 
-https://networkupstools.org/docs/user-manual.chunked/index.html
+https://networkupstools.org/docs/user-manual.chunked/index.html  
 https://wiki.ipfire.org/addons/nut/detailed
 
 ## Install
@@ -49,7 +49,8 @@ UPSLOG=`cat /var/log/syslog | grep ups | tail -50`
 /usr/local/bin/telegramsend "Server SHUTTING DOWN%0ABattary charge = $BATT%0ALOGS = $UPSLOG"
     ;;
     *)
-echo "wrong parameter";;
+echo "wrong parameter"
+    ;;
 esac
 
 ```
