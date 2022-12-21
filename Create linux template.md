@@ -38,6 +38,12 @@ qm create 9000 --memory 2048 --net0 virtio,bridge=vmbr0 --scsihw virtio-scsi-pci
 qm set 9000 --scsi0 local-lvm:0,import-from=debian-11-generic-amd64.qcow2
 ```
 
+OR import disk manually *if it is already converted to raw format **.img***
+
+```
+qm importdisk 9000 debian-11-generic-amd64.img local-lvm
+```
+
 ### change virtual consile
 
 ```
