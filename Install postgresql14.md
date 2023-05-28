@@ -114,8 +114,25 @@ sudo systemctl status postgresql
 
 ## Add TimescaleDB
 
+Note versions compability https://docs.timescale.com/timescaledb/latest/how-to-guides/upgrades/upgrade-pg/  
+
+Note Zabbix support at current time only 2.8.x version of TimescaleDB (may change in future) https://www.zabbix.com/documentation/6.2/en/manual/introduction/whatsnew624
+
 manual https://docs.timescale.com/install/latest/self-hosted/installation-debian/
 
+### **Compile way**
+
+Documentation https://docs.timescale.com/install/latest/self-hosted/installation-source/  
+
+Tune https://docs.timescale.com/timescaledb/latest/how-to-guides/configuration/timescaledb-tune/  
+
+Install additional packages
+
+```bash
+sudo apt install build-essential cmake postgresql-server-dev-14 libkrb5-dev
+```
+
+### **Package way**
 ### Add the PostgreSQL third party repository to get the latest PostgreSQL packages:
 
 ```bash
