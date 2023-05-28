@@ -1,17 +1,17 @@
 # PVE settings
 
 - [PVE settings](#pve-settings)
-  - [Encryption](#encryption)
-    - [**Encrypting the `rpool/ROOT` dataset**](#encrypting-the-rpoolroot-dataset)
-    - [**Encrypting the `rpool/data` dataset**](#encrypting-the-rpooldata-dataset)
-    - [Create encrypted zpool of `NVME` disks](#create-encrypted-zpool-of-nvme-disks)
-    - [**Unlock service**](#unlock-service)
-      - [Fix possible pool disappearence after reboot (very optional)](#fix-possible-pool-disappearence-after-reboot-very-optional)
-    - [**Creating usb key-unlock**](#creating-usb-key-unlock)
-    - [**Automatic decrypt boot filesystem with USB key**](#automatic-decrypt-boot-filesystem-with-usb-key)
-  - [**Disable cluster's services (in case of standalone)**](#disable-clusters-services-in-case-of-standalone)
-  - [**Limit ZFS Memory Usage**](#limit-zfs-memory-usage)
-  - [**GPU passthrough**](#gpu-passthrough)
+	- [Encryption](#encryption)
+		- [**Encrypting the `rpool/ROOT` dataset**](#encrypting-the-rpoolroot-dataset)
+		- [**Encrypting the `rpool/data` dataset**](#encrypting-the-rpooldata-dataset)
+		- [Create encrypted zpool of `NVME` disks](#create-encrypted-zpool-of-nvme-disks)
+		- [**Unlock service**](#unlock-service)
+			- [Fix possible pool disappearence after reboot (very optional)](#fix-possible-pool-disappearence-after-reboot-very-optional)
+		- [**Creating usb key-unlock**](#creating-usb-key-unlock)
+		- [**Automatic decrypt boot filesystem with USB key**](#automatic-decrypt-boot-filesystem-with-usb-key)
+	- [**Disable cluster's services (in case of standalone)**](#disable-clusters-services-in-case-of-standalone)
+	- [**Limit ZFS Memory Usage**](#limit-zfs-memory-usage)
+	- [**GPU passthrough**](#gpu-passthrough)
 
 
 ## Encryption
@@ -291,6 +291,8 @@ systemctl disable --now corosync.service
 
 https://pve.proxmox.com/wiki/ZFS_on_Linux#sysadmin_zfs_limit_memory_usage
 
+ZFS uses *50 %* of the host memory for the **A**daptive **R**eplacement **C**ache (ARC) ***by default***. As a general rule of thumb, allocate at least `2 GiB Base + 1 GiB/TiB-Storage`. For example, if you have a pool with `8 TiB` of available storage space then you should use `10 GiB` of memory for the ARC.
+
 To permanently change the ARC limits, add the following line to `/etc/modprobe.d/zfs.conf`:
 ```
 options zfs zfs_arc_max=8589934592
@@ -298,10 +300,16 @@ options zfs zfs_arc_max=8589934592
 This example setting limits the usage to 8 GiB (8 * 2^30).
 
 > **Note!** In case your desired `zfs_arc_max` value is lower than or equal to `zfs_arc_min` (which defaults to 1/32 of the system memory), `zfs_arc_max` will be ignored unless you also set `zfs_arc_min` to at most `zfs_arc_max` - 1. <br>
+```
+echo "$[8 * 1024*1024*1024 - 1]" >/sys/module/zfs/parameters/zfs_arc_min
+echo "$[8 * 1024*1024*1024]" >/sys/module/zfs/parameters/zfs_arc_max
+```
+This example setting (temporarily) limits the usage to 8 GiB (8 * 2^30) on systems with more than 256 GiB of total memory, where simply setting `zfs_arc_max` alone would not work.<br>
 > If your root file system is ZFS, you must update your initramfs every time this value changes:
 ```
 update-initramfs -u -k all
 ```
+> You **must reboot** to activate these changes.
 
 ## **GPU passthrough**
 
