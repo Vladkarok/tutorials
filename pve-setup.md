@@ -20,7 +20,8 @@
 
 https://privsec.dev/posts/linux/using-native-zfs-encryption-with-proxmox/
 
-First, boot into the initramfs. On the startup menu, press `e` to edit the boot argument. Remove `root=ZFS=rpool/ROOT/pve-1 boot=zfs` from the argument and press `enter`.
+First, boot into the initramfs.<br>
+To do this on the startup menu, press `e` to edit the boot argument. Remove `root=ZFS=rpool/ROOT/pve-1 boot=zfs` from the argument and press `enter`.
 ![](manpics/../man_pics/entermenu.png)
 
 Load in the `zfs` kernel module:
