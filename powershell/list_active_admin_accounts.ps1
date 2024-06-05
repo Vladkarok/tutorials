@@ -15,7 +15,7 @@ foreach ($member in $adminGroup.psbase.Invoke("Members")) {
         $userFlags = $user.Properties.Item("UserFlags").Value
 
         # If userFlags is not null, perform the bitwise check
-        if ($userFlags -ne $null) {
+        if ($null -ne $userFlags) {
             $isDisabled = ($userFlags -band 2) -ne 0
         } else {
             $isDisabled = $false
